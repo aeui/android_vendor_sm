@@ -242,13 +242,13 @@ ROM_POSTFIX := $(shell date +"%Y%m%d-%H%M")
 NUCLEAR_VERSION := NucleaRom-V$(ROM_VERSION_MAINTENANCE)-$(ROM_VERSION_STATUS)[$(ROM_VERSION)]-$(DEVICEVERSION)-$(ROM_POSTFIX)
 NUCLEAR_MOD_VERSION := NucleaRom-V$(ROM_VERSION_MAINTENANCE)-$(ROM_VERSION_STATUS)[$(ROM_VERSION)]-$(DEVICEVERSION)-$(ROM_POSTFIX)
 PRODUCT_PROPERTY_OVERRIDES += \
-    ro.cm.version=$(LINEAGE_VERSION) \
-    ro.cm.releasetype=$(CM_BUILDTYPE) \
-    ro.modversion=$(LINEAGE_VERSION) \
-    ro.cmlegal.url=https://lineageos.org/legal
+  ro.cm.version=$(NUCLEAR_VERSION) \
+  ro.cm.releasetype=$(ROM_VERSION_STATUS) \
+  ro.modversion=$(NUCLEAR_VERSION) \
+  ro.cmlegal.url=https://lineageos.org/legal
 
 PRODUCT_EXTRA_RECOVERY_KEYS += \
-    vendor/cm/build/target/product/security/lineage
+        vendor/cm/build/target/product/security/cm \
 
 -include vendor/cm-priv/keys/keys.mk
 
