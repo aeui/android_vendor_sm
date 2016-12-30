@@ -251,7 +251,7 @@ PRODUCT_PROPERTY_OVERRIDES += \
   ro.cm.version=$(NUCLEAR_VERSION) \
   ro.cm.releasetype=$(ROM_VERSION_STATUS) \
   ro.modversion=$(NUCLEAR_VERSION) \
-  ro.cmlegal.url=https://cyngn.com/legal/privacy-policy
+  ro.cmlegal.url=https://lineageos.org/legal
 
 ifeq ($(OTA_PACKAGE_SIGNING_KEY),)
     PRODUCT_EXTRA_RECOVERY_KEYS += \
