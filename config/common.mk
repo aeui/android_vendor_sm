@@ -248,8 +248,8 @@ PRODUCT_PROPERTY_OVERRIDES += \
   ro.cmlegal.url=https://lineageos.org/legal
 
 PRODUCT_EXTRA_RECOVERY_KEYS += \
-        vendor/cm/build/target/product/security/cm \
-
+  vendor/cm/build/target/product/security/lineage
+ 
 -include vendor/cm-priv/keys/keys.mk
 
 CM_DISPLAY_VERSION := $(NUCLEAR_VERSION)
