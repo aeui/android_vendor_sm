@@ -133,6 +133,7 @@ PRODUCT_PACKAGES += \
     LiveLockScreenService \
     LockClock \
     Trebuchet \
+    OmniSwitch \
     masquerade \
     WallpaperPicker \
     WeatherProvider
