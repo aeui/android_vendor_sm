@@ -127,7 +127,7 @@ PRODUCT_PACKAGES += \
     AudioFX \
     CMFileManager \
     CMSettingsProvider \
-    CyanogenSetupWizard \
+    LineageSetupWizard \
     Eleven \
     ExactCalculator \
     LiveLockScreenService \
