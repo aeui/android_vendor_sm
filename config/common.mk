@@ -133,7 +133,7 @@ PRODUCT_PACKAGES += \
     LockClock \
     Trebuchet \
     OmniSwitch \
-    masquerade \
+    ThemeInterfacer \
     WallpaperPicker \
     WeatherProvider
 
