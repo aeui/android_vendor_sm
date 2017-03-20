@@ -126,6 +126,7 @@ PRODUCT_PACKAGES += \
 PRODUCT_PACKAGES += \
     AudioFX \
     CMSettingsProvider \
+    CustomTiles \
     LineageSetupWizard \
     Eleven \
     ExactCalculator \
