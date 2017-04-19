@@ -236,7 +236,7 @@ endif
 DEVICE_PACKAGE_OVERLAYS += vendor/cm/overlay/common
 
 # NuclearVersion
-ROM_VERSION = 7.1.1
+ROM_VERSION = 7.1.2
 ROM_VERSION_STATUS = OFFICIAL
 ROM_VERSION_MAINTENANCE = $(VER_ROM)
 ROM_POSTFIX := $(shell date +"%Y%m%d-%H%M")
