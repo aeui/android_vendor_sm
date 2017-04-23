@@ -1,4 +1,4 @@
-# Inherit common CM stuff
-$(call inherit-product, vendor/cm/config/common.mk)
+# Inherit common SM stuff
+$(call inherit-product, vendor/sm/config/common.mk)
 
 PRODUCT_SIZE := mini

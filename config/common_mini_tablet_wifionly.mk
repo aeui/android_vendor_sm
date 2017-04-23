@@ -1,6 +1,6 @@
 # Inherit common CM stuff
-$(call inherit-product, vendor/cm/config/common_mini.mk)
+$(call inherit-product, vendor/sm/config/common_mini.mk)
 
-# Required CM packages
+# Required SM packages
 PRODUCT_PACKAGES += \
     LatinIME

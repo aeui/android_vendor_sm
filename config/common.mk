@@ -1,7 +1,4 @@
-PRODUCT_BRAND ?= LineageOS
-
-# Boot animation include
-PRODUCT_BOOTANIMATION := vendor/cm/prebuilt/common/bootanimation/1080.zip
+PRODUCT_BRAND ?= SudaMod
 
 PRODUCT_BUILD_PROP_OVERRIDES += BUILD_UTC_DATE=0
 
@@ -36,46 +33,71 @@ endif
 
 # Copy over the changelog to the device
 PRODUCT_COPY_FILES += \
-    vendor/cm/CHANGELOG.mkdn:system/etc/CHANGELOG-CM.txt
+    vendor/sm/CHANGELOG.mkdn:system/etc/CHANGELOG-CM.txt
 
 # Backup Tool
 PRODUCT_COPY_FILES += \
-    vendor/cm/prebuilt/common/bin/backuptool.sh:install/bin/backuptool.sh \
-    vendor/cm/prebuilt/common/bin/backuptool.functions:install/bin/backuptool.functions \
-    vendor/cm/prebuilt/common/bin/50-cm.sh:system/addon.d/50-cm.sh \
-    vendor/cm/prebuilt/common/bin/blacklist:system/addon.d/blacklist
+    vendor/sm/prebuilt/common/bin/backuptool.sh:install/bin/backuptool.sh \
+    vendor/sm/prebuilt/common/bin/backuptool.functions:install/bin/backuptool.functions \
+    vendor/sm/prebuilt/common/bin/50-sm.sh:system/addon.d/50-sm.sh \
+    vendor/sm/prebuilt/common/bin/blacklist:system/addon.d/blacklist
 
 # System feature whitelists
 PRODUCT_COPY_FILES += \
-    vendor/cm/config/permissions/backup.xml:system/etc/sysconfig/backup.xml \
-    vendor/cm/config/permissions/power-whitelist.xml:system/etc/sysconfig/power-whitelist.xml
+    vendor/sm/config/permissions/backup.xml:system/etc/sysconfig/backup.xml \
+    vendor/sm/config/permissions/power-whitelist.xml:system/etc/sysconfig/power-whitelist.xml
 
 # Assertive Display
 PRODUCT_COPY_FILES += \
-    vendor/cm/prebuilt/common/etc/ad_calib.cfg:system/etc/ad_calib.cfg
+    vendor/sm/prebuilt/common/etc/ad_calib.cfg:system/etc/ad_calib.cfg
 
 # Signature compatibility validation
 PRODUCT_COPY_FILES += \
-    vendor/cm/prebuilt/common/bin/otasigcheck.sh:install/bin/otasigcheck.sh
+    vendor/sm/prebuilt/common/bin/otasigcheck.sh:install/bin/otasigcheck.sh
 
 # init.d support
 PRODUCT_COPY_FILES += \
-    vendor/cm/prebuilt/common/etc/init.d/00banner:system/etc/init.d/00banner \
-    vendor/cm/prebuilt/common/bin/sysinit:system/bin/sysinit
+    vendor/sm/prebuilt/common/etc/init.d/00banner:system/etc/init.d/00banner \
+    vendor/sm/prebuilt/common/bin/sysinit:system/bin/sysinit
 
 ifneq ($(TARGET_BUILD_VARIANT),user)
 # userinit support
 PRODUCT_COPY_FILES += \
-    vendor/cm/prebuilt/common/etc/init.d/90userinit:system/etc/init.d/90userinit
+    vendor/sm/prebuilt/common/etc/init.d/90userinit:system/etc/init.d/90userinit
 endif
 
-# CM-specific init file
+# SM-specific init file
 PRODUCT_COPY_FILES += \
-    vendor/cm/prebuilt/common/etc/init.local.rc:root/init.cm.rc
+    vendor/sm/prebuilt/common/etc/init.local.rc:root/init.sm.rc
+
+# USE V4A
+ifeq ($(WITH_V4A),true)
+PRODUCT_COPY_FILES += $(shell test -d vendor/sm/prebuilt/V4A/app/ViPER4Android && \
+    find vendor/sm/prebuilt/V4A/app/ViPER4Android -name '*.apk' \
+    -printf '%p:system/app/ViPER4Android/%f ')
+PRODUCT_COPY_FILES += \
+    vendor/sm/prebuilt/common/lib/soundfx/libv4a.so:system/lib/soundfx/libv4a.so
+else
+PRODUCT_PACKAGES += \
+    AudioFX
+endif
+
+# Google PinYin
+PRODUCT_COPY_FILES += $(shell test -d vendor/sm/prebuilt/google/app/GooglePinYin && \
+    find vendor/sm/prebuilt/google/app/GooglePinYin -name '*.apk' \
+    -printf '%p:system/app/GooglePinYin/%f ')
+PRODUCT_COPY_FILES += $(shell test -d vendor/sm/prebuilt/google/app/GooglePinYin && \
+    find vendor/sm/prebuilt/google/app/GooglePinYin -name '*.so' \
+    -printf '%p:system/app/GooglePinYin/lib/arm/%f ')
+
+#ForceStop
+PRODUCT_COPY_FILES += \
+    vendor/sm/prebuilt/Brevent/Brevent.apk:system/app/Brevent/Brevent.apk
+
 
 # Copy over added mimetype supported in libcore.net.MimeUtils
 PRODUCT_COPY_FILES += \
-    vendor/cm/prebuilt/common/lib/content-types.properties:system/lib/content-types.properties
+    vendor/sm/prebuilt/common/lib/content-types.properties:system/lib/content-types.properties
 
 # Enable SIP+VoIP on all targets
 PRODUCT_COPY_FILES += \
@@ -85,19 +107,23 @@ PRODUCT_COPY_FILES += \
 PRODUCT_COPY_FILES += \
     frameworks/base/data/keyboards/Vendor_045e_Product_028e.kl:system/usr/keylayout/Vendor_045e_Product_0719.kl
 
-# This is CM!
+# This is SM!
 PRODUCT_COPY_FILES += \
-    vendor/cm/config/permissions/com.cyanogenmod.android.xml:system/etc/permissions/com.cyanogenmod.android.xml
+    vendor/sm/config/permissions/com.cyanogenmod.android.xml:system/etc/permissions/com.cyanogenmod.android.xml \
 
-# Include CM audio files
-include vendor/cm/config/cm_audio.mk
+# Phonelocation!
+PRODUCT_COPY_FILES +=  \
+    vendor/sm/prebuilt/common/media/location/suda-phonelocation.dat:system/media/location/suda-phonelocation.dat
+
+# Include SM audio files
+include vendor/sm/config/sm_audio.mk
 
 # Theme engine
-include vendor/cm/config/themes_common.mk
+include vendor/sm/config/themes_common.mk
 
 ifneq ($(TARGET_DISABLE_CMSDK), true)
 # CMSDK
-include vendor/cm/config/cmsdk_common.mk
+include vendor/sm/config/cmsdk_common.mk
 endif
 
 # Bootanimation
@@ -113,7 +139,7 @@ PRODUCT_PACKAGES += \
     Profiles \
     WeatherManagerService
 
-# Optional CM packages
+# Optional SM packages
 PRODUCT_PACKAGES += \
     LiveWallpapersPicker \
     Terminal
@@ -127,19 +153,18 @@ PRODUCT_PACKAGES += \
 PRODUCT_PACKAGES += \
     AudioFX \
     CMSettingsProvider \
+    CMUpdater \
     CustomTiles \
-    LineageSetupWizard \
+    SMSetupWizard \
     Eleven \
     ExactCalculator \
     LiveLockScreenService \
     LockClock \
     Trebuchet \
-    OmniSwitch \
-    ThemeInterfacer \
     WallpaperPicker \
     WeatherProvider
 
-# Extra tools in CM
+# Extra tools in SM
 PRODUCT_PACKAGES += \
     7z \
     bash \
@@ -224,66 +249,61 @@ PRODUCT_BOOT_JARS += \
 ifneq ($(TARGET_BUILD_VARIANT),user)
 PRODUCT_PACKAGES += \
     procmem \
-    procrank
-
-# Conditionally build in su
-ifeq ($(WITH_SU),true)
-PRODUCT_PACKAGES += \
+    procrank \
     su
 endif
+
+
+DEVICE_PACKAGE_OVERLAYS += vendor/sm/overlay/common
+
+PRODUCT_VERSION_MAJOR = 71
+PRODUCT_VERSION_MINOR = 2
+
+ifdef SM_BUILDTYPE
+    ifdef SM_EXTRAVERSION
+        # Force build type to EXPERIMENTAL
+        SM_BUILDTYPE := EXPERIMENTAL
+        # Remove leading dash from SM_EXTRAVERSION
+        SM_EXTRAVERSION := $(shell echo $(SM_EXTRAVERSION) | sed 's/-//')
+        # Add leading dash to SM_EXTRAVERSION
+        SM_EXTRAVERSION := -$(SM_EXTRAVERSION)
+    endif
+else
+    # If SM_BUILDTYPE is not defined, set to UNOFFICIAL
+    SM_BUILDTYPE := UNOFFICIAL
+    SM_EXTRAVERSION :=
 endif
 
-DEVICE_PACKAGE_OVERLAYS += vendor/cm/overlay/common
-
-# NuclearVersion
-ROM_VERSION = 7.1.2
-ROM_VERSION_STATUS = OFFICIAL
-ROM_VERSION_MAINTENANCE = $(VER_ROM)
-ROM_POSTFIX := $(shell date +"%Y%m%d-%H%M")
-
-NUCLEAR_VERSION := NucleaRom-V$(ROM_VERSION_MAINTENANCE)-$(ROM_VERSION_STATUS)[$(ROM_VERSION)]-$(DEVICEVERSION)-$(ROM_POSTFIX)
-NUCLEAR_MOD_VERSION := NucleaRom-V$(ROM_VERSION_MAINTENANCE)-$(ROM_VERSION_STATUS)[$(ROM_VERSION)]-$(DEVICEVERSION)-$(ROM_POSTFIX)
-PRODUCT_PROPERTY_OVERRIDES += \
-  ro.cm.version=$(NUCLEAR_VERSION) \
-  ro.cm.releasetype=$(ROM_VERSION_STATUS) \
-  ro.modversion=$(NUCLEAR_VERSION) \
-  ro.cmlegal.url=https://lineageos.org/legal
-
-PRODUCT_EXTRA_RECOVERY_KEYS += \
-  vendor/cm/build/target/product/security/lineage
- 
--include vendor/cm-priv/keys/keys.mk
-
-CM_DISPLAY_VERSION := $(NUCLEAR_VERSION)
-
-ifneq ($(PRODUCT_DEFAULT_DEV_CERTIFICATE),)
-ifneq ($(PRODUCT_DEFAULT_DEV_CERTIFICATE),build/target/product/security/testkey)
-    ifneq ($(CM_BUILDTYPE), UNOFFICIAL)
-        ifndef TARGET_VENDOR_RELEASE_BUILD_ID
-            ifneq ($(CM_EXTRAVERSION),)
-                # Remove leading dash from CM_EXTRAVERSION
-                CM_EXTRAVERSION := $(shell echo $(CM_EXTRAVERSION) | sed 's/-//')
-                TARGET_VENDOR_RELEASE_BUILD_ID := $(CM_EXTRAVERSION)
-            else
-                TARGET_VENDOR_RELEASE_BUILD_ID := $(shell date -u +%Y%m%d)
-            endif
-        else
-            TARGET_VENDOR_RELEASE_BUILD_ID := $(TARGET_VENDOR_RELEASE_BUILD_ID)
-        endif
-        ifeq ($(CM_VERSION_MAINTENANCE),0)
-            CM_DISPLAY_VERSION := $(PRODUCT_VERSION_MAJOR).$(PRODUCT_VERSION_MINOR)-$(TARGET_VENDOR_RELEASE_BUILD_ID)-$(CM_BUILD)
-        else
-            CM_DISPLAY_VERSION := $(PRODUCT_VERSION_MAJOR).$(PRODUCT_VERSION_MINOR).$(CM_VERSION_MAINTENANCE)-$(TARGET_VENDOR_RELEASE_BUILD_ID)-$(CM_BUILD)
-        endif
+ifneq ($(filter RELEASE,$(SM_BUILDTYPE)),)
+    ifdef SM_BUILD_DATE
+        SM_VERSION := $(PRODUCT_VERSION_MAJOR).$(PRODUCT_VERSION_MINOR)-$(SM_BUILD_DATE)-$(SM_BUILDTYPE)-$(SM_BUILD)
+    else
+        SM_VERSION := $(PRODUCT_VERSION_MAJOR).$(PRODUCT_VERSION_MINOR)-$(shell date +%y%m%d)-$(SM_BUILDTYPE)-$(SM_BUILD)
+    endif
+else
+    ifdef SM_BUILD_DATE
+        SM_VERSION := $(PRODUCT_VERSION_MAJOR).$(PRODUCT_VERSION_MINOR)-$(SM_BUILD_DATE)-$(SM_BUILDTYPE)-$(SM_BUILD)
+    else
+        SM_VERSION := $(PRODUCT_VERSION_MAJOR).$(PRODUCT_VERSION_MINOR)-$(shell date +%Y%m%d%H%M)-$(SM_BUILDTYPE)-$(SM_BUILD)
     endif
 endif
-endif
 
 PRODUCT_PROPERTY_OVERRIDES += \
-    ro.cm.display.version=$(CM_DISPLAY_VERSION)
+    ro.sm.version=$(SM_VERSION) \
+    ro.sm.releasetype=$(SM_BUILDTYPE) \
+    ro.modversion=$(SM_VERSION) \
+    ro.cmlegal.url=https://lineageos.org/legal
+
+PRODUCT_EXTRA_RECOVERY_KEYS += \
+    vendor/sm/build/target/product/security/lineage
+
+-include vendor/cm-priv/keys/keys.mk
+
+PRODUCT_PROPERTY_OVERRIDES += \
+  ro.sm.display.version=$(SM_VERSION)
 
 -include $(WORKSPACE)/build_env/image-auto-bits.mk
--include vendor/cm/config/partner_gms.mk
+-include vendor/sm/config/partner_gms.mk
 -include vendor/cyngn/product.mk
 
 $(call prepend-product-if-exists, vendor/extra/product.mk)
